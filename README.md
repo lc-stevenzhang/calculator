@@ -1,3 +1,5 @@
+工业计算小工具。 By Steven, for Ming.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
