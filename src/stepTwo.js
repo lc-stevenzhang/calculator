@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Select, Radio, Button } from 'antd'
+import { Form, Input, Select, Radio, Button, Tag } from 'antd'
 import 'antd/dist/antd.css'
 import './App.css'
 
@@ -21,14 +21,8 @@ class StepTwo extends Component {
   render() {
     const Option = Select.Option
     const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
+      labelCol: { span: 6 },
+      wrapperCol: { span: 18 },
     }
     const selectAfter = (
       <Select value={this.props.full_cover_unit} onChange={this.props.changeFullCoverUnit} >
@@ -44,9 +38,9 @@ class StepTwo extends Component {
       </Select>
     )
     return (
-      <div>
+      <div className='stepTwo-container' >
         {this.props.full_cover &&
-          <div>
+          <div style={{ width: '50%', margin: 'auto' }}>
             <Form.Item
               {...formItemLayout}
               label="长度"
@@ -69,11 +63,7 @@ class StepTwo extends Component {
                 value={this.props.full_cover_width}
                 onChange={this.props.onChange} />
             </Form.Item>
-          </div>
-        }
 
-        {!this.props.full_cover &&
-          <div>
             <Form.Item
               {...formItemLayout}
               label="开孔"
@@ -88,49 +78,56 @@ class StepTwo extends Component {
                 icon="plus"
                 onClick={() => this.props.addHole(this.state.hole_shape)} />
             </Form.Item>
-            {this.props.legs.map((element, index) => {
+
+            {this.props.hole_array.map((element, index) => {
               return (
                 <React.Fragment key={element.id}>
-
                   <Form.Item
                     key={element.id}
                     {...formItemLayout}
                     label={element.shape === 'circle' ? '直径' : '长度'}
                   >
-                    <Input
-                      name=''
-                      type='number'
-                      addonAfter={'cm'}
-                      value={element.shape === 'circle' ? element.diameter : element.length}
-                      onChange={(e) => this.props.onLegDimensionChange(e, element.id, element.shape === 'circle' ? 'diameter' : 'length')} />
-                    {element.shape === 'circle' &&
-                      <Button
-                        size='small'
-                        type='danger'
-                        shape="circle"
-                        icon="minus"
-                        onClick={() => this.props.deleteHole(element.id)} />}
-                  </Form.Item>
-
-                  {element.shape === 'square' &&
-                    <Form.Item
-                      key={element.id + 1}
-                      {...formItemLayout}
-                      label={'宽度'}
-                    >
+                    <div className='flex-space-between'>
                       <Input
                         name=''
                         type='number'
                         addonAfter={'cm'}
-                        value={element.width}
-                        onChange={(e) => this.props.onLegDimensionChange(e, element.id, 'width')} />
-                      <Button
-                        size='small'
-                        type='danger'
-                        shape="circle"
-                        icon="minus"
-                        onClick={() => this.props.deleteHole(element.id)} />
-                    </Form.Item>
+                        value={element.shape === 'circle' ? element.diameter : element.length}
+                        onChange={(e) => this.props.onLegDimensionChange(e, element.id, element.shape === 'circle' ? 'diameter' : 'length')} />
+                      {element.shape === 'circle' &&
+                        <Button
+                          size='small'
+                          type='danger'
+                          shape="circle"
+                          icon="minus"
+                          onClick={() => this.props.deleteHole(element.id)} />}
+                    </div>
+
+                  </Form.Item>
+
+                  {element.shape === 'square' &&
+                    <div style={{ marginTop: '-20px' }}>
+                      <Form.Item
+                        key={element.id + 1}
+                        {...formItemLayout}
+                        label={'宽度'}
+                      >
+                        <div className='flex-space-between'>
+                          <Input
+                            name=''
+                            type='number'
+                            addonAfter={'cm'}
+                            value={element.width}
+                            onChange={(e) => this.props.onLegDimensionChange(e, element.id, 'width')} />
+                          <Button
+                            size='small'
+                            type='danger'
+                            shape="circle"
+                            icon="minus"
+                            onClick={() => this.props.deleteHole(element.id)} />
+                        </div>
+                      </Form.Item>
+                    </div>
                   }
                 </React.Fragment>
               )
@@ -138,18 +135,64 @@ class StepTwo extends Component {
           </div>
         }
 
-        <Form.Item
-          {...formItemLayout}
-          label="重量"
-        >
-          <Input
-            name='weight'
-            type='number'
-            addonAfter={selectAfterWeight}
-            value={this.props.weight}
-            onChange={this.props.onChange} />
-        </Form.Item>
-      </div>
+        {!this.props.full_cover &&
+          <div style={{ width: '100%', margin: 'auto' }}>
+            <div className='flex-space-between'>
+              <Tag>方形支座</Tag>
+              <Input
+                name='leg_length'
+                type='number'
+                addonBefore={'长'}
+                addonAfter={'cm'}
+                value={this.props.leg_length}
+                onChange={this.props.onChange} />
+              <Input
+                name='leg_width'
+                type='number'
+                addonBefore={'宽'}
+                addonAfter={'cm'}
+                value={this.props.leg_width}
+                onChange={this.props.onChange} />
+              <Input
+                name='leg_square_count'
+                type='number'
+                addonBefore={'个数'}
+                value={this.props.leg_square_count}
+                onChange={this.props.onChange} />
+            </div>
+
+            <div className='flex-space-between'>
+              <Tag>圆形支座</Tag>
+              <Input
+                name='leg_diameter'
+                type='number'
+                addonBefore={'直径'}
+                addonAfter={'cm'}
+                value={this.props.leg_length}
+                onChange={this.props.onChange} />
+              <Input
+                name='leg_circle_count'
+                type='number'
+                addonBefore={'个数'}
+                value={this.props.leg_circle_count}
+                onChange={this.props.onChange} />
+            </div>
+          </div>
+        }
+        <div style={{ width: '50%', margin: 'auto' }}>
+          <Form.Item
+            {...formItemLayout}
+            label="重量"
+          >
+            <Input
+              name='weight'
+              type='number'
+              addonAfter={selectAfterWeight}
+              value={this.props.weight}
+              onChange={this.props.onChange} />
+          </Form.Item>
+        </div>
+      </div >
     )
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Radio } from 'antd'
+import { Radio, Button } from 'antd'
 import 'antd/dist/antd.css'
 import './App.css'
 import StepTwo from './stepTwo'
@@ -15,16 +15,20 @@ class App extends Component {
     super(props)
     this.state = {
       full_cover: true,
-      legs: [], // {id: '', shape: 'circle', diameter: '2', length:'', width: ''}
+      hole_array: [], // {id: '', shape: 'circle', diameter: '2', length:'', width: ''}
       full_cover_length: '',
       full_cover_width: '',
       full_cover_unit: 'm',
-      hole_array: [], // {id: '', shape: 'circle', diameter: '7.8', dimension: '5'},
+      //hole_array: [], // {id: '', shape: 'circle', diameter: '7.8', dimension: '5'},
       bolt_hole: { size: '', number: '' }, // size: M8/10/12/20/24
+      leg_length: '',
+      leg_width: '',
+      leg_diameter: '',
+      leg_square_count: '',
+      leg_circle_count: '',
       weight: '',
       weight_unit: 't', // unit: t, kg
       power: '',
-      power_unit: 'N/mm2', // N/mm2, T/m2
       real_area: '', // m2
       total_area: '',
       block_number: '',
@@ -48,7 +52,7 @@ class App extends Component {
   onLegDimensionChange = (e, id, field) => {
     const value = e.target.value
     this.setState({
-      legs: this.state.legs.map(element => {
+      hole_array: this.state.hole_array.map(element => {
         if (element.id === id) {
           return Object.assign({}, element, { [field]: value })
         } else {
@@ -95,7 +99,7 @@ class App extends Component {
 
   addHole = (shape) => {
     console.log('addHole, type is: ' + shape)
-    console.log(this.state.legs.concat({
+    console.log(this.state.hole_array.concat({
       id: uuidv1(),
       shape: shape,
       diameter: '',
@@ -103,7 +107,7 @@ class App extends Component {
       width: ''
     }))
     this.setState({
-      legs: this.state.legs.concat({
+      hole_array: this.state.hole_array.concat({
         id: uuidv1(),
         shape: shape,
         diameter: '',
@@ -115,37 +119,48 @@ class App extends Component {
 
   deleteHole = (id) => {
     this.setState({
-      legs: this.state.legs.filter(element => element.id !== id)
+      hole_array: this.state.hole_array.filter(element => element.id !== id)
     })
+  }
+
+  calculate = () => {
+
   }
   render() {
     return (
       <div className="App">
-        <h3>1.选择类型</h3>
-        <RadioGroup onChange={this.onFullCoverChange} value={this.state.full_cover}>
-          <Radio value={true}>满铺</Radio>
-          <Radio value={false}>支座</Radio>
-        </RadioGroup>
-        <h3>2.输入数据</h3>
-        <StepTwo
-          full_cover={this.state.full_cover}
-          full_cover_length={this.state.full_cover_length}
-          full_cover_width={this.state.full_cover_width}
-          full_cover_unit={this.state.full_cover_unit}
-          legs={this.state.legs}
-          weight={this.state.weight}
-          weight_unit={this.state.weight_unit}
-          onChange={this.onChange}
-          onLegDimensionChange={this.onLegDimensionChange}
-          changeFullCoverUnit={this.changeFullCoverUnit}
-          changeWeightUnit={this.changeWeightUnit}
-          addHole={this.addHole}
-          deleteHole={this.deleteHole}
-        />
-        <h3>3.结果</h3>
-        <StepThree />
-        <h3>4.材料选择</h3>
-        <StepFour />
+        <div className='parent-container'>
+          <h3 className='h3-header'>1.选择类型</h3>
+          <RadioGroup onChange={this.onFullCoverChange} value={this.state.full_cover}>
+            <Radio value={true}>满铺</Radio>
+            <Radio value={false}>支座</Radio>
+          </RadioGroup>
+          <h3 className='h3-header'>2.输入数据</h3>
+          <StepTwo
+            full_cover={this.state.full_cover}
+            full_cover_length={this.state.full_cover_length}
+            full_cover_width={this.state.full_cover_width}
+            full_cover_unit={this.state.full_cover_unit}
+            hole_array={this.state.hole_array}
+            weight={this.state.weight}
+            weight_unit={this.state.weight_unit}
+            onChange={this.onChange}
+            onLegDimensionChange={this.onLegDimensionChange}
+            changeFullCoverUnit={this.changeFullCoverUnit}
+            changeWeightUnit={this.changeWeightUnit}
+            addHole={this.addHole}
+            deleteHole={this.deleteHole}
+          />
+          <div>
+            <Button onClick={this.calculate}>计算</Button>
+          </div>
+
+          <h3 className='h3-header'>3.结果</h3>
+          <StepThree />
+
+          <h3 className='h3-header'>4.材料选择</h3>
+          <StepFour />
+        </div>
       </div>
     );
   }
