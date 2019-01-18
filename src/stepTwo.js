@@ -66,6 +66,25 @@ class StepTwo extends Component {
 
             <Form.Item
               {...formItemLayout}
+              label="螺栓孔"
+            >
+              <RadioGroup onChange={this.props.onBoltHoleChange} value={this.props.bolt_hole_size}>
+                <Radio value={'m8'}>M8</Radio>
+                <Radio value={'m10'}>M10</Radio>
+                <Radio value={'m12'}>M12</Radio>
+                <Radio value={'m20'}>M20</Radio>
+                <Radio value={'m24'}>M24</Radio>
+              </RadioGroup>
+              <Input
+                name='bolt_hole_number'
+                type='number'
+                addonAfter={'个'}
+                value={this.props.bolt_hole_number}
+                onChange={this.props.onChange} />
+            </Form.Item>
+
+            <Form.Item
+              {...formItemLayout}
               label="开孔"
             >
               <RadioGroup onChange={this.onHoleShapeChange} value={this.state.hole_shape}>
@@ -168,7 +187,7 @@ class StepTwo extends Component {
                 type='number'
                 addonBefore={'直径'}
                 addonAfter={'cm'}
-                value={this.props.leg_length}
+                value={this.props.leg_diameter}
                 onChange={this.props.onChange} />
               <Input
                 name='leg_circle_count'

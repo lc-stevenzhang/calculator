@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.12.3",
+    "convert-units": "^2.3.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3",
