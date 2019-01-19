@@ -226,7 +226,7 @@ class App extends Component {
           />
 
           <h3 className='h3-header'>4.材料选择</h3>
-          <StepFour />
+          <StepFour power={this.state.power}/>
         </div>
       </div>
     );

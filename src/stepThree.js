@@ -32,7 +32,6 @@ class StepThree extends Component {
     ]),
   }
   render() {
-    console.log(this.props)
     return (
       <div className='stepTwo-container'>
         <div style={{ width: '50%', margin: 'auto' }}>
