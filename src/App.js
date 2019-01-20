@@ -166,7 +166,7 @@ class App extends Component {
     //console.log(`total_area: ${total_area} cm2`)
     const real_area = this.state.full_cover ? full_cover_area - hole_area : legs_area // cm2
     // console.log(`real_area: ${real_area} cm2`)
-    const power = weight_kg / (this.state.full_cover ? real_area : legs_area) // N/mm2
+    const power = weight_kg / (this.state.full_cover ? real_area : legs_area) // N/mm2 = kg/cm2
     const block_number = (this.state.full_cover ? full_cover_area : legs_area) / (1.15 * 1.5 * 10000)
     const roll_number = (this.state.full_cover ? full_cover_area : legs_area) / (1.15 * 5 * 10000)
 
