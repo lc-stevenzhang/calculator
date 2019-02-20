@@ -87,7 +87,6 @@ class App extends Component {
     }
   }
 
-
   changeWeightUnit = (value) => {
     console.log('changeWeightUnit to: ' + value)
     if (this.state.weight_unit === 't' && value === 'kg') {
@@ -148,7 +147,8 @@ class App extends Component {
   }
 
   calculate = () => {
-    const weight_kg = convert(this.state.weight).from(this.state.weight_unit).to('kg')
+    // const weight_kg = convert(this.state.weight).from(this.state.weight_unit).to('kg')
+    const weight_kg = this.state.weight_unit === 'kg' ? this.state.weight : this.state.weight * 1000
     // if it is full_cover(满铺)
     const full_cover_area = convert(this.state.full_cover_length).from(this.state.full_cover_unit).to('cm') * convert(this.state.full_cover_width).from(this.state.full_cover_unit).to('cm')
     let hole_area = 0
@@ -165,13 +165,14 @@ class App extends Component {
     const total_area = this.state.full_cover ? full_cover_area : legs_area  // cm2
     //console.log(`total_area: ${total_area} cm2`)
     const real_area = this.state.full_cover ? full_cover_area - hole_area : legs_area // cm2
-    // console.log(`real_area: ${real_area} cm2`)
+    console.log(`weight_kg: ${weight_kg}`)
+    console.log(`area: ${this.state.full_cover ? real_area : legs_area}`)
     const power = weight_kg / (this.state.full_cover ? real_area : legs_area) // N/mm2 = kg/cm2
     const block_number = (this.state.full_cover ? full_cover_area : legs_area) / (1.15 * 1.5 * 10000)
     const roll_number = (this.state.full_cover ? full_cover_area : legs_area) / (1.15 * 5 * 10000)
 
     this.setState({
-      power: power,
+      power: power * 0.0980665,
       total_area: total_area / 10000,
       real_area: real_area / 10000,
       block_number: block_number,
@@ -226,7 +227,7 @@ class App extends Component {
           />
 
           <h3 className='h3-header'>4.材料选择</h3>
-          <StepFour power={this.state.power}/>
+          <StepFour power={this.state.power} />
         </div>
       </div>
     );
