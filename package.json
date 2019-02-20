@@ -2,7 +2,7 @@
   "name": "calculator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://lc-stevenzhang.github.io",
+  "homepage": "http://lc-stevenzhang.github.io/lc-stevenzhang.github.io",
   "dependencies": {
     "antd": "^3.12.3",
     "convert-units": "^2.3.4",
